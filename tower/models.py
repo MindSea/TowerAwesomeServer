@@ -5,15 +5,18 @@ class Account(models.Model):
     name = models.CharField('Name', max_length=256)
     email = models.CharField('Email', max_length=256)
     pushID = models.CharField('PushID', max_length=256)
+    worlds = models.ManyToManyField('World')
     
     def __unicode__(self):
         return self.name + " - " + self.email
 
 
 class World(models.Model):
-    # worldID
-    players = models.ManyToManyField('Player')
-    currentTurn = models.IntegerField('Turn')
+    turnData = models.TextField('Turn data')
+    nextTurn = models.ManyToManyField('Next player\'s turn')
+    
+    def __unicode__(self):
+        return "World - " + str(self.pk)
 
 
 class Turn(models.Model):

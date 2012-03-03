@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     # url(r'^towerAwesome/', include('towerAwesome.foo.urls')),
     
     url(r'^accounts/(?P<email>.*)/?$', 'tower.views.accounts'),
+    url(r'^worlds/(?P<email>.*)/?$', 'tower.views.worlds'),
     
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
