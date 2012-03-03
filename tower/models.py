@@ -18,3 +18,13 @@ class World(models.Model):
     def __unicode__(self):
         return "World - " + str(self.pk)
 
+
+"""
+
+For an account, give me all the worlds
+
+from tower.models import Account
+a = Account.objects.all()
+a[0].worlds.all()
+
+"""
