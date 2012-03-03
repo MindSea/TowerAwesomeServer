@@ -13,50 +13,8 @@ class Account(models.Model):
 
 class World(models.Model):
     turnData = models.TextField('Turn data')
-    nextTurn = models.ManyToManyField('Next player\'s turn')
+    nextTurn = models.ManyToManyField('Account')
     
     def __unicode__(self):
         return "World - " + str(self.pk)
 
-
-class Turn(models.Model):
-    nextTurn = models.IntegerField('Next Turn')
-    actions = models.ManyToManyField('Building')
-
-
-class Actions(models.Model):
-    action = models.CharField('Title', max_length=256)
-    locationX = models.FloatField('Location X')
-    locationY = models.FloatField('Location Y')
-
-
-class Player(models.Model):
-    health = models.IntegerField('Health')
-    gold = models.IntegerField('Health')
-    locationX = models.FloatField('Location X')
-    locationY = models.FloatField('Location Y')
-    buildings = models.ManyToManyField('Building')
-    account = models.ManyToManyField('Account')
-    
-    class Meta:
-        pass
-
-
-class Building(models.Model):
-    buildingType = models.CharField('Title', max_length=256)
-    baseX = models.FloatField('Base X')
-    baseY = models.FloatField('Base Y')
-    health = models.IntegerField('Health')
-    
-    class Meta:
-        pass
-
-
-
-# Turn
-#     - many actions
-#         - type
-#         - location
-
-
-# Apply actions on next turn
