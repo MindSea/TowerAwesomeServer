@@ -40,6 +40,26 @@ def accounts(request, email=''):
         return HttpResponse({}, mimetype="application/json")
 
 
+def worldList(request, email=''):
+    account = Account.objects.get(email=email)
+    
+    worlds = []
+    
+    for w in account.worlds.all():
+        worlds.append({
+            'turnData': w.turnData,
+            'nextTurn': w.nextTurn,
+        })
+    
+    worldList = {
+        'worlds': worlds,
+    }
+    
+    out = simplejson.dumps(worldList)
+    
+    return HttpResponse(out, mimetype="application/json")
+
+
 def worlds(request, id=''):
     if request.method == 'GET':
         world = World.objects.get(pk=id)
@@ -60,7 +80,7 @@ def worlds(request, id=''):
         
         return HttpResponse(out, mimetype="application/json")
     elif request.method == 'POST':
-        if request.POST['id']:
+        if ('id' in request.POST):
             w = World(
                 id = request.POST['id'],
                 turnData = request.POST['turnData'],
@@ -81,6 +101,8 @@ def worlds(request, id=''):
         out = simplejson.dumps([data])
         
         return HttpResponse(out, mimetype="application/json")
+
+
 
 
 

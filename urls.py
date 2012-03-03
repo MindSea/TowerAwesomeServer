@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'towerAwesome.views.home', name='home'),
     # url(r'^towerAwesome/', include('towerAwesome.foo.urls')),
     
+    url(r'^accounts/(?P<email>.*)/worlds/?$', 'tower.views.worldList'),
     url(r'^accounts/(?P<email>.*)/?$', 'tower.views.accounts'),
     url(r'^worlds/(?P<id>.*)/?$', 'tower.views.worlds'),
     
