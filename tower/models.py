@@ -6,14 +6,16 @@ class Account(models.Model):
     email = models.CharField('Email', max_length=256)
     pushID = models.CharField('PushID', max_length=256)
     worlds = models.ManyToManyField('World')
+    rawData = models.TextField('Raw JSON data')
     
     def __unicode__(self):
         return self.name + " - " + self.email
 
 
 class World(models.Model):
-    turnData = models.TextField('Turn data')
+    lastTurn = models.TextField('Turn data')
     nextTurn = models.CharField('Email', max_length=256)
+    rawData = models.TextField('Raw JSON data')
     
     def __unicode__(self):
         return "World - " + str(self.pk)

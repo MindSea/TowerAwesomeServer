@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from tower.models import Account, World
 from django.utils import simplejson
+import json
 from django.core import serializers
 from urllib import urlencode
 import urlparse
@@ -22,6 +23,7 @@ def accounts(request, email=''):
                 'name': account.name,
                 'email': account.email,
                 'worlds': worlds,
+                'rawData': account.rawData,
             }
         }
         
@@ -29,10 +31,15 @@ def accounts(request, email=''):
         
         return HttpResponse(out, mimetype="application/json")
     elif request.method == 'POST':
+        jsonData = request.raw_post_data
+        
+        data = json.loads(jsonData)
+        
         a = Account(
-            name = request.POST['name'],
-            email = request.POST['email'],
-            pushID = request.POST['pushID'],
+            name = data['name'],
+            email = data['email'],
+            pushID = data['pushID'],
+            rawData = jsonData,
         )
         
         a.save()
@@ -46,10 +53,7 @@ def worldList(request, email=''):
     worlds = []
     
     for w in account.worlds.all():
-        worlds.append({
-            'turnData': w.turnData,
-            'nextTurn': w.nextTurn,
-        })
+        worlds.append(json.loads(w.rawData))
     
     worldList = {
         'worlds': worlds,
@@ -71,8 +75,9 @@ def worlds(request, id=''):
         
         worldData = {
             'world': {
-                'turnData': world.turnData,
+                'lastTurn': world.lastTurn,
                 'nextTurn': nextTurn,
+                'rawData': world.rawData,
             }
         }
         
@@ -80,25 +85,37 @@ def worlds(request, id=''):
         
         return HttpResponse(out, mimetype="application/json")
     elif request.method == 'POST':
+        jsonData = request.raw_post_data
+        
+        data = json.loads(jsonData)
+        
+        # a = Account.objects.get(email)
+        
         if ('id' in request.POST):
             w = World(
-                id = request.POST['id'],
-                turnData = request.POST['turnData'],
-                nextTurn = request.POST['nextTurn'],
+                id = data['id'],
+                lastTurn = data['lastTurn'],
+                nextTurn = data['nextTurn'],
+                rawData = jsonData,
             )
         else:
             w = World(
-                turnData = request.POST['turnData'],
-                nextTurn = request.POST['nextTurn'],
+                lastTurn = data['lastTurn'],
+                nextTurn = data['nextTurn'],
+                rawData = jsonData,
             )
         
         w.save()
         
-        data = {
-            'id': w.id
-        }
+        for p in data['players']:
+            accounts = Account.objects.all().filter(email=p['email'])
+            
+            for a in accounts:
+                a.worlds.add(w)
         
-        out = simplejson.dumps([data])
+        data['id'] = w.id
+        
+        out = simplejson.dumps({'worlds': data})
         
         return HttpResponse(out, mimetype="application/json")
 
