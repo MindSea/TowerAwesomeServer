@@ -13,7 +13,7 @@ class Account(models.Model):
 
 class World(models.Model):
     turnData = models.TextField('Turn data')
-    nextTurn = models.ManyToManyField('Account')
+    nextTurn = models.CharField('Email', max_length=256)
     
     def __unicode__(self):
         return "World - " + str(self.pk)
