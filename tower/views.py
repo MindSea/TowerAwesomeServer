@@ -111,12 +111,12 @@ def worlds(request, id=''):
         # Sending a pushid to the account with nextTurn as an
         # email address
         
-        # airship = urbanairship.Airship('OrIHug2GTuy2JKbNwwD0Rw', 'a7rVW5jSR2qmv7_Otdckfw')
-        # 
-        # a = Account.objects.get(email=data['nextTurn'])
-        # pushID = a.pushID
-        # 
-        # airship.push({'aps': {'alert': "It's your turn now in towerAWESOME!"}}, device_tokens=[pushID])
+        airship = urbanairship.Airship('OrIHug2GTuy2JKbNwwD0Rw', 'a7rVW5jSR2qmv7_Otdckfw')
+        
+        a = Account.objects.get(email=data['nextTurn'])
+        pushID = a.pushID
+        
+        airship.push({'aps': {'alert': "It's your turn now in towerAWESOME!"}}, device_tokens=[pushID])
         
         # badges?
         
