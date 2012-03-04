@@ -113,7 +113,7 @@ def worlds(request, id=''):
         
         airship = urbanairship.Airship('OrIHug2GTuy2JKbNwwD0Rw', 'a7rVW5jSR2qmv7_Otdckfw')
         
-        a = Account.objects.get(data['nextTurn'])
+        a = Account.objects.get(email=data['nextTurn'])
         pushID = a.pushID
         
         airship.push({'aps': {'alert': "It's your turn now in towerAWESOME!"}}, device_tokens=[pushID])
