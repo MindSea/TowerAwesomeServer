@@ -51,14 +51,16 @@ def worldList(request, email=''):
     account = Account.objects.get(email=email)
     
     worlds = []
-    
+
     for w in account.worlds.all():
-        worlds.append(json.loads(w.rawData))
-    
+        jsonData = json.loads(w.rawData)
+        jsonData['id'] = w.id
+        worlds.append(jsonData)
+
     worldList = {
         'worlds': worlds,
     }
-    
+
     out = simplejson.dumps(worldList)
     
     return HttpResponse(out, mimetype="application/json")
