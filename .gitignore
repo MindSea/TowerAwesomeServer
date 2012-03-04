@@ -2,6 +2,7 @@
 *.pyc
 .*
 settingsLocal.py
+settingsServer.py
 multilingual/__init__.py
 ~/multilingual/__init__.py
 *.mo
