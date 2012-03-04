@@ -3,7 +3,7 @@ from django.db import models
 
 class Account(models.Model):
     name = models.CharField('Name', max_length=256)
-    email = models.CharField('Email', max_length=256, primary_key=True)
+    email = models.CharField('Email', max_length=255, primary_key=True)
     pushID = models.CharField('PushID', max_length=256)
     worlds = models.ManyToManyField('World')
     rawData = models.TextField('Raw JSON data')

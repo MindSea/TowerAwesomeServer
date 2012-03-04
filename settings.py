@@ -108,7 +108,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     # ------------
-    'south',
+    # 'south',
     # ------------
     'tower',
 )

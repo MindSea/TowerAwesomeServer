@@ -6,6 +6,7 @@ import json
 from django.core import serializers
 from urllib import urlencode
 import urlparse
+import urbanairship
 
 
 def accounts(request, email=''):
@@ -106,6 +107,24 @@ def worlds(request, id=''):
                 nextTurn = data['nextTurn'],
                 rawData = jsonData,
             )
+        
+        # Sending a pushid to the account with nextTurn as an
+        # email address
+        
+        airship = urbanairship.Airship('OrIHug2GTuy2JKbNwwD0Rw', 'a7rVW5jSR2qmv7_Otdckfw')
+        
+        a = Account.objects.get(nextTurn)
+        pushID = a.pushID
+        
+        airship.push({'aps': {'alert': "It's your turn now in towerAWESOME!"}}, device_tokens=[pushID])
+        
+        # badges?
+        
+        # get the other player, and send a push notification
+        # Send a push notification
+        
+        
+        
         
         w.save()
         
