@@ -93,7 +93,7 @@ def worlds(request, id=''):
         
         # a = Account.objects.get(email)
         
-        if ('id' in request.POST):
+        if ('id' in data):
             w = World(
                 id = data['id'],
                 lastTurn = data['lastTurn'],
